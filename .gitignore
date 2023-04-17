@@ -1,1 +1,4 @@
 __pycache__
+problem-*
+results/camera*.txt
+results/point_cloud.txt
