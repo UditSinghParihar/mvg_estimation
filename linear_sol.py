@@ -259,6 +259,8 @@ def plot_point_cloud_cameras(checkerboard_3d, R0, t0, R1, t1, R2, t2, R3, t3, R4
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
 
+    ax.set_title("Linear Solution with 5 cameras and 50 points")
+
     ax.scatter(checkerboard_3d[:, 0], checkerboard_3d[:, 1], 0, c='r', marker='o', label='Checkerboard 3D points')
 
     ax.scatter(point_cloud_3d[:, 0], point_cloud_3d[:, 1], point_cloud_3d[:, 2], c='b', marker='o', label='Point cloud 3D points')
@@ -268,7 +270,6 @@ def plot_point_cloud_cameras(checkerboard_3d, R0, t0, R1, t1, R2, t2, R3, t3, R4
     ax.quiver(0, 0, 0, 0, 1, 0, color='g', label='Y')
     ax.quiver(0, 0, 0, 0, 0, 1, color='b', label='Z')
     
-
     # Ri, ti are world wrt camera, but for plotting we need camera wrt world
     R0_inv = np.linalg.inv(R0)
     t0_inv = -R0_inv @ t0
@@ -452,5 +453,8 @@ if __name__ == '__main__':
         np.savetxt(f'{cfg.save_dir}/camera2.txt', np.concatenate((R2_aa, t2), axis=1), delimiter=' ')
         np.savetxt(f'{cfg.save_dir}/camera3.txt', np.concatenate((R3_aa, t3), axis=1), delimiter=' ')
         np.savetxt(f'{cfg.save_dir}/camera4.txt', np.concatenate((R4_aa, t4), axis=1), delimiter=' ')
+
+        # Saving checkerboard 3D points
+        np.savetxt(f'{cfg.save_dir}/checkerboard.txt', checkerboard_3d, delimiter=' ')
 
         print('Saved solution to', cfg.save_dir)
