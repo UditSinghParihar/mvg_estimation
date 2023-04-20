@@ -1,5 +1,7 @@
 # Problem Description
 
+<img src="report/images/bundle_adjustment_results.png" alt="pipeline" width="600" />
+
 There is a camera, a checkerboard, and a point cloud in your environment.
 
 The camera images the checkerboard and point cloud from 5 perspectives.  
@@ -21,6 +23,19 @@ All images have gaussian noise.
 You need to find the best possible 3D estimates of the points in the point cloud.
 
 
-# Code
-`python linear_sol.py`  
-`python bundle_adjustment.py`
+
+# Code  
+1. Minimal dependencies:  
+    2. Numpy, `numpy`    
+    3. OpenCV, `cv2`  
+    4. Scipy, `scipy`  
+    5. Matplotlib, `matplotlib` 
+
+2. Run python files in the following order:
+    1. `python linear_sol.py`  
+    2. `python bundle_adjustment.py`  
+
+
+# Results
+1. Problem Statement, Methodology, and Results can be found in the [report](report/main.pdf).
+
