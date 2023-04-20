@@ -22,5 +22,5 @@ You need to find the best possible 3D estimates of the points in the point cloud
 
 
 # Code
-`python linear_sol.py`
+`python linear_sol.py`  
 `python bundle_adjustment.py`

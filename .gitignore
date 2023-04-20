@@ -3,3 +3,11 @@ problem-*
 results/camera*.txt
 results/point_cloud.txt
 results/checkerboard.txt
+.vscode
+report/*.aux
+report/*.bcf
+report/*.fls
+report/*.log
+report/*.xml
+report/*.gz
+report/*.fdb_latexmk

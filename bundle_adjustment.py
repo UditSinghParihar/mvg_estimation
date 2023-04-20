@@ -27,8 +27,8 @@ class CFG:
 
     focal_length = 200
 
-    plot_initial_residuals = True
-    plot_final_residuals = True
+    plot_initial_residuals = False
+    plot_final_residuals = False
     plot_cameras_point_cloud = True
 
 def read_poses_point_cloud():
@@ -117,7 +117,7 @@ def project(points, r_t_vecs):
     points_proj = rotate(points, rot_vecs) + t
     points_proj = points_proj[:, :2] / points_proj[:, 2, np.newaxis]
     
-    f = 200 # cfg.focal_length
+    f = cfg.focal_length
     points_proj = points_proj * f
 
     return points_proj
@@ -174,7 +174,7 @@ def plot_point_cloud_cameras(checkerboard_3d, R0, t0, R1, t1, R2, t2, R3, t3, R4
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.set_title("Bundle Adjustment with 5 cameras and 50 points")
+    ax.set_title("Bundle Adjustment Solution for 5 cameras and 10 points")
 
     ax.scatter(checkerboard_3d[:, 0], checkerboard_3d[:, 1], 0, c='r', marker='o', label='Checkerboard 3D points')
 
@@ -334,3 +334,4 @@ if __name__ == "__main__":
 
     if cfg.plot_cameras_point_cloud:
         plot_point_cloud_cameras(checkerboard_3d, R0_optimized, t0_optimized, R1_optimized, t1_optimized, R2_optimized, t2_optimized, R3_optimized, t3_optimized, R4_optimized, t4_optimized, points_3d_optimized)
+        

@@ -28,7 +28,8 @@ class CFG:
     fy = 200
 
     use_opencv = False
-    plot_cameras = False
+    plot_checkerboard = True
+    plot_cameras = True
     plot_cameras_point_cloud = True
 
     save_solution = True
@@ -145,6 +146,28 @@ def reprojection_error(H, R, t, K, checkerboard_px, checkerboard_3d):
     return (error_homo.mean(), error_rt.mean())
 
 
+def plot_checkerboard(checkerboard_3d):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_title("3D Checkerboard points with origin as world coordinate frame")
+
+    ax.scatter(checkerboard_3d[:, 0], checkerboard_3d[:, 1], np.zeros(checkerboard_3d.shape[0]), color='k')
+
+    ax.quiver(0, 0, 0, 1, 0, 0, color='r')
+    ax.quiver(0, 0, 0, 0, 1, 0, color='g')
+    ax.quiver(0, 0, 0, 0, 0, 1, color='b')
+
+    ax.set_xlim(-1, 10)
+    ax.set_ylim(-1, 10)
+    ax.set_zlim(-1, 1)
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+
+    plt.show()
+
+
 def plot_cameras(checkerboard_3d, R0, t0, R1, t1, R2, t2, R3, t3, R4, t4):
     """
     Plotting cameras and checkerboard in world coordinates
@@ -152,6 +175,8 @@ def plot_cameras(checkerboard_3d, R0, t0, R1, t1, R2, t2, R3, t3, R4, t4):
 
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
+
+    ax.set_title("Camera poses from Homogrpahy Decomposition of 2D-3D checkerboard correspondences")
 
     ax.scatter(checkerboard_3d[:, 0], checkerboard_3d[:, 1], 0, c='r', marker='o', label='Checkerboard 3D points')
 
@@ -259,7 +284,7 @@ def plot_point_cloud_cameras(checkerboard_3d, R0, t0, R1, t1, R2, t2, R3, t3, R4
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.set_title("Linear Solution with 5 cameras and 50 points")
+    ax.set_title("Linear Solution for estimation of 5 cameras and 10 points")
 
     ax.scatter(checkerboard_3d[:, 0], checkerboard_3d[:, 1], 0, c='r', marker='o', label='Checkerboard 3D points')
 
@@ -369,6 +394,10 @@ if __name__ == '__main__':
     
     checkerboard_3d = np.array(checkerboard_3d) # 50x2
 
+    # Plot checkerboard points with coordinate frame at origin
+    if cfg.plot_checkerboard:
+        plot_checkerboard(checkerboard_3d)
+
     # Estimating homography and decomposing it into R and t
     if cfg.use_opencv:
         H0_cv2, _ = cv2.findHomography(checkerboard_px0[:, 1:], checkerboard_3d)   
@@ -425,6 +454,10 @@ if __name__ == '__main__':
     error_point_cloud_camera4 = reprojection_error_point_cloud(point_cloud_3d, point_cloud_px4[:, 1:], R4, t4, K)
 
     print('Reprojection error of point_cloud:', error_point_cloud_camera0, error_point_cloud_camera1, error_point_cloud_camera2, error_point_cloud_camera3, error_point_cloud_camera4)
+
+    # Mean reprojection error of point_cloud_3d
+    mean_error_point_cloud = np.mean([error_point_cloud_camera0, error_point_cloud_camera1, error_point_cloud_camera2, error_point_cloud_camera3, error_point_cloud_camera4])
+    print('Mean reprojection error of point_cloud:', mean_error_point_cloud)
 
     def rotation_matrix_from_axis_angle(w):
         theta = np.linalg.norm(w)
