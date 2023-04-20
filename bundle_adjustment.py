@@ -335,3 +335,4 @@ if __name__ == "__main__":
     if cfg.plot_cameras_point_cloud:
         plot_point_cloud_cameras(checkerboard_3d, R0_optimized, t0_optimized, R1_optimized, t1_optimized, R2_optimized, t2_optimized, R3_optimized, t3_optimized, R4_optimized, t4_optimized, points_3d_optimized)
         
+    print("Final optimized point cloud with respect to world origin defined at checkerboard corner:\n", points_3d_optimized)

@@ -448,6 +448,31 @@ Our initial and final root mean squared residual can be seen in table \ref{tab:b
 Since our initial estimates of camera pose and point cloud points are pretty accurate from Zhang method and multi view triangulation, therefore the bundle adjustment didn't improve the results much, and started 
 pretty close to local minima. The bundle adjustment results can be seen in figure \ref{fig:bundle_adjustment_results}.
 
+Values of optimized point cloud points with respect to world coordinate define at checkerboard corner is given in table \ref{tab:optimized_point_cloud_points}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    Point & X & Y & Z \\
+    \hline
+    1 & -1.862 & 1.164 & -1.030 \\
+    2 & 1.919 & -1.140 & 0.137 \\
+    3 & -3.185 & -3.029 & 0.981 \\
+    4 & 0.859 & -0.180 & 0.830 \\
+    5 & -1.914 & -0.188 & -0.836 \\
+    6 & -1.723 & -2.336 & 1.003 \\
+    7 & -2.938 & -1.022 & 2.984 \\
+    8 & 1.237 & -0.040 & -2.126 \\
+    9 & 0.891 & -1.618 & 1.831 \\
+    10 & 0.641 & -0.841 & -1.222 \\
+    \hline
+    \end{tabular}
+    \caption{Optimized point cloud points}
+    \label{tab:optimized_point_cloud_points}
+\end{table}
+
+
 % page break
 \pagebreak
 
