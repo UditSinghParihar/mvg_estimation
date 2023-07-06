@@ -57,6 +57,8 @@ to estimate the camera pose using Zhang method. All the camera poses and 3D poin
 \end{figure}
 
 
+
+
 \section{Methodology}
 We first use provided checkerboard 2D pixels and corresponding 3D coordinates to calculate a homography matrix, $H$, using Zhang method. Then we decompose, $H$, into rotation, $R$, and translation, $t$, using SVD,
 with a known camera matrix, $K$. The estimated camera poses, $R$ and $t$, are used to triangulate the 3D point cloud locations, using the provided 2D pixel coordinates. All the cameras are used to triangulate all the 3D 
@@ -70,6 +72,20 @@ are jointly optimized.
 
 \subsection{Homography Estimation}
 Camera projection equation can be written as:
+
+% Write camera projection equation
+\begin{equation}
+    \begin{bmatrix}
+    x_i \\ y_i \\ 1
+    \end{bmatrix}_{3\times1} = \mathbf{K}_{3\times3}
+    \begin{bmatrix}
+    r_1 & r_2 & r_3 & t
+    \end{bmatrix}_{3\times4}
+    \begin{bmatrix}
+    X_i \\ Y_i \\ Z_i \\1
+    \end{bmatrix}_{4\times1}
+\end{equation}
+
 
 \begin{equation}
     \begin{bmatrix}
@@ -438,7 +454,7 @@ Our initial and final root mean squared residual can be seen in table \ref{tab:b
         \hline
         Initial RMSE & Final RMSE \\
         \hline
-        1.0155 & 0.770 \\
+        1.0155 & 0.757 \\
         \hline
     \end{tabular}
     \caption{Root mean squared error of bundle adjustment}

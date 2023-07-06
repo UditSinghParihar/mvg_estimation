@@ -31,6 +31,8 @@ class CFG:
     plot_final_residuals = False
     plot_cameras_point_cloud = True
 
+    print_optimized_point_cloud = False
+
 def read_poses_point_cloud():
     """
     Read the camera rotation in axis-angle and translation from the file
@@ -98,7 +100,7 @@ def rotate(points, rot_vecs):
     cos_theta = np.cos(theta)
     sin_theta = np.sin(theta)
 
-    final_points = cos_theta * points + sin_theta * np.cross(v, points) + dot * (1 - cos_theta) * v # 31843, 3
+    final_points = cos_theta * points + sin_theta * np.cross(v, points) + dot * (1 - cos_theta) * v # 50, 3
 
     return final_points
 
@@ -293,11 +295,12 @@ if __name__ == "__main__":
     # Sparse Jacobian matrix
     A = bundle_adjustment_sparsity(n_cameras, n_points, camera_indices, point_indices)
 
-    t0 = time.time()
-    result = least_squares(residuals, x0, jac_sparsity=A, verbose=2, x_scale='jac', ftol=1e-4, method='trf', loss='soft_l1', args=(n_cameras, n_points, camera_indices, point_indices, points_2d))
-    t1 = time.time()
+    time0 = time.time()
+    # result = least_squares(residuals, x0, verbose=2, x_scale='jac', ftol=1e-4, method='lm', loss='linear', args=(n_cameras, n_points, camera_indices, point_indices, points_2d))
+    result = least_squares(residuals, x0, jac_sparsity=A, verbose=2, x_scale='jac', ftol=1e-4, method='trf', args=(n_cameras, n_points, camera_indices, point_indices, points_2d))
+    time1 = time.time()
 
-    # print("Optimization took {0:.0f} seconds".format(t1 - t0))
+    # print("Optimization took {0:.0f} seconds".format(time1 - time0))
 
     if cfg.plot_final_residuals:
         plt.figure()
@@ -335,4 +338,5 @@ if __name__ == "__main__":
     if cfg.plot_cameras_point_cloud:
         plot_point_cloud_cameras(checkerboard_3d, R0_optimized, t0_optimized, R1_optimized, t1_optimized, R2_optimized, t2_optimized, R3_optimized, t3_optimized, R4_optimized, t4_optimized, points_3d_optimized)
         
-    print("Final optimized point cloud with respect to world origin defined at checkerboard corner:\n", points_3d_optimized)
+    if cfg.print_optimized_point_cloud:
+        print("Final optimized point cloud with respect to world origin defined at checkerboard corner:\n", points_3d_optimized)

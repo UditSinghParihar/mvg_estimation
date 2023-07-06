@@ -458,13 +458,6 @@ if __name__ == '__main__':
     # Mean reprojection error of point_cloud_3d
     mean_error_point_cloud = np.mean([error_point_cloud_camera0, error_point_cloud_camera1, error_point_cloud_camera2, error_point_cloud_camera3, error_point_cloud_camera4])
     print('Mean reprojection error of point_cloud:', mean_error_point_cloud)
-
-    def rotation_matrix_from_axis_angle(w):
-        theta = np.linalg.norm(w)
-        w = w / theta
-        K = np.array([[0, -w[2], w[1]], [w[2], 0, -w[0]], [-w[1], w[0], 0]])
-        return np.eye(3) + np.sin(theta) * K + (1 - np.cos(theta)) * K @ K
-
    
     # Saving point cloud and camera poses
     if cfg.save_solution:
